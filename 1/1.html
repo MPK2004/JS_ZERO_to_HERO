@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+    background-color: #57e6ff;
+    display: flex;
+    justify-content:space-around;
+    align-items:center;
+}
+button{
+    background: #ff4747;
+    color:rgb(255, 255, 255);
+    height: 150px;
+    width: 500px;
+    margin:auto;
+    font-size: 40px;
+    font-style: italic;
+    font-weight: bold;
+    border-radius: 50px;
+}   
+    </style>
+</head>
+<body>
+    <button>Click Me</button>
+</body>
+<script>
+    button = document.querySelector('button');
+button.addEventListener('click', () => {
+    alert('Button was clicked!');
+    button.textContent = 'Clicked!';
+    button.style.backgroundColor = 'green';
+})
+
+
+</script>
+</html>

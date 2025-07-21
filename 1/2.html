@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: coral;
+            display: flex;
+            justify-content: center;
+            align-items: center;;
+        }
+        button{
+            height: 150px;
+            width: 400px;
+            background-color: cadetblue;
+            color: #ffffff;
+            font-size: 40px;
+            font-style: italic;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <button class="clickme">Click Me</button>
+</body>
+<script>
+    const button = document.querySelector('.clickme');
+    button.addEventListener('click', () => {
+        button.style.backgroundColor = getRandomColor();
+        button.textContent = getRandomColor();
+    })
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for(let i = 0; i< 6; i++) {
+            color +=letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+</script>
+</html>
