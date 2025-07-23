@@ -108,6 +108,23 @@ body{
     color: white;
 }
 
+@media screen and (max-width: 480px) {
+    .container {
+        width: 80%;
+        height: auto;
+        /* padding: 20px; */
+
+    }
+    #numberInput {
+        width: 100%;
+    }
+    .number {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+    
+}
+
 </style>
 <body>
     <div class="container">
@@ -172,8 +189,7 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         const value = button.textContent;
-
-        if (value === 'C') input.value = '';
+        if (value === 'Clear') input.value = '';
         else if (value === 'SQroot') input.value = Math.sqrt(input.value);
         else if (value === '=') {
              try {
@@ -187,6 +203,7 @@ buttons.forEach(button => {
                 input.value += '.';
             }}
             else if(input.value === '' && "*/".includes(button.innerText)) return;
+            
          else {
             
             let current = input.value;
