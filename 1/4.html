@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+body{
+    background-color: rgb(7, 7, 7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+    width: 500px;
+    height: 500px;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 50px;
+    border: 2px solid rgb(50, 160, 255);
+
+
+}
+.container_2{
+        display: flex;
+    justify-content: center;
+}
+#numberInput{
+    width: 400px;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 50px;
+    border: 2px solid rgb(50, 160, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+#calculateButton, #clearButton {
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 50px;
+    border: 2px solid rgb(50, 160, 255); /* matches text color */
+    margin: 0 10px;
+    cursor: pointer;
+}
+#calculateButton:hover, #clearButton:hover {
+    background-color: rgb(50, 160, 255);
+    color: white;
+}
+#calculateButton:active, #clearButton:active {
+    background-color: rgb(30, 130, 200);
+    color: white;
+}
+#calculateButton:disabled, #clearButton:disabled {
+    background-color: rgb(100, 100, 100);
+    color: white;
+    cursor: not-allowed;
+}
+#calculateButton:disabled:hover, #clearButton:disabled:hover {
+    background-color: rgb(100, 100, 100);
+    color: white;
+}
+#calculateButton:disabled:active, #clearButton:disabled:active {
+    background-color: rgb(100, 100, 100);
+    color: white;
+}
+#numberInput:focus {
+    outline: none;
+    border-color: rgb(50, 160, 255);
+}
+#numberInput::placeholder {
+    color: rgb(150, 150, 150);
+    font-style: italic;
+}
+
+.number-buttons{
+    display: flex;
+    justify-content:space-around;
+    margin-top: 20px;
+}
+
+.number{
+    width: 100px;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 50px;
+    border: 2px solid rgb(50, 160, 255); /* matches text color */
+    cursor: pointer;
+}
+.number:hover {
+    background-color: rgb(172, 212, 247);
+    color: white;
+}
+.number:active {
+    background-color: rgb(50, 160, 255);
+    color: white;
+}
+
+</style>
+<body>
+    <div class="container">
+        <div class="container_2">
+        <input type="text" id="numberInput" placeholder="Calculate">
+</div>
+<div class="buttons">
+    <button id="calculateButton">=</button>
+    <button id="clearButton">Clear</button>
+</div>
+
+<div class="buttons number-buttons">
+
+    <button class="number">7</button>
+    <button class="number">8</button>
+    <button class="number">9</button>
+    
+</div>
+<div class="buttons number-buttons">
+
+    <button class="number">4</button>
+    <button class="number">5</button>
+    <button class="number">6</button>
+    
+</div>
+<div class="buttons number-buttons">
+
+    <button class="number">1</button>
+    <button class="number">2</button>
+    <button class="number">3</button>
+    
+</div>
+<div class="buttons number-buttons">
+
+    <button class="number">+</button>
+    <button class="number">*</button>
+    <button class="number">-</button>
+    
+</div>
+<div class="buttons number-buttons">
+
+    <button class="number">/</button>
+    <button class="number">.</button>
+    <button class="number">0</button>
+    
+</div>
+<div class="buttons number-buttons">
+<button class="number">SQroot</button>
+    <button class="number">C</button>
+</div>
+    </div>
+</body>
+<script>
+const input = document.getElementById('numberInput');
+const calculateButton = document.getElementById('calculateButton');
+const clearButton = document.getElementById('clearButton');
+const numberButtons = document.querySelectorAll('.number');
+
+const buttons = document.querySelectorAll('button');
+
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        const value = button.textContent;
+
+        if (value === 'C') input.value = '';
+        else if (value === 'SQroot') input.value = Math.sqrt(input.value);
+        else if (value === '=') {
+             try {
+        input.value = eval(input.value);
+      } catch (error) {
+        input.value = 'Error';
+      }
+        }
+        else if( value === '.') {
+            if (!input.value.includes('.')) {
+                input.value += '.';
+            }}
+            else if(input.value === '' && "*/".includes(button.innerText)) return;
+         else {
+            
+            let current = input.value;
+let lastChar = current[current.length - 1];
+
+
+if ("+-*/".includes(lastChar) && "+-*/".includes(button.innerText)) {
+    // Replace last operator with the new one
+    input.value = current.slice(0, -1) + button.innerText;
+} 
+
+
+else {
+    input.value += button.innerText;
+}
+
+        }
+    })
+calculateButton.addEventListener('click', () => {
+    input.value = eval(input.value);
+})    
+    
+});
+</script>
+</html>
