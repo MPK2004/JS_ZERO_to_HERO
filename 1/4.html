@@ -173,7 +173,7 @@ body{
 </div>
 <div class="buttons number-buttons">
 <button class="number">SQroot</button>
-    <button class="number">C</button>
+    <button class="number">^2</button>
 </div>
     </div>
 </body>
@@ -191,6 +191,7 @@ buttons.forEach(button => {
         const value = button.textContent;
         if (value === 'Clear') input.value = '';
         else if (value === 'SQroot') input.value = Math.sqrt(input.value);
+        else if (value === '^2') input.value = Math.pow(input.value, 2);
         else if (value === '=') {
              try {
         input.value = eval(input.value);
