@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+   <style>
+body {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: auto;
+  height: auto;
+  font-size: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px solid rgb(50, 160, 255);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.adddiv, .edit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.edit {
+  display: none;
+}
+
+input[type="text"] {
+  width: 300px;
+  height: 40px;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 50px;
+  border: 2px solid rgb(50, 160, 255);
+}
+
+#taskInput, #editInput {
+  width: 300px;
+  height: 40px;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 50px;
+  border: 2px solid rgb(50, 160, 255);
+}
+
+button {
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 50px;
+  border: 2px solid rgb(50, 160, 255);
+  cursor: pointer;
+  background-color: var(--button-bg, rgb(255, 255, 255));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: rgb(50, 160, 255);
+  color: white;
+  border: 2px solid black;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: #a5edff;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.4s ease;
+}
+
+li.fade-out {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+li.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    width: 90%;
+  }
+
+  .adddiv,
+  .edit {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #taskInput,
+  #editInput {
+    width: 90%;
+  }
+
+  #addBtn,
+  #changeBtn {
+    width: 60%;
+  }
+
+  ul {
+    width: 100%;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
+
+</head>
+<body>
+    <div class="container adddiv">
+        <h1>📝 To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Enter a task">
+        <button id="addBtn">Add</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <div class="container edit">
+        <h1>📝 Edit</h1>
+        <span></span>
+        <input type="text" id="editInput" placeholder="Edit">
+        <button id="changeBtn">Change</button>
+    </div>
+    <script>
+const taskInput = document.getElementById('taskInput');
+const addBtn = document.getElementById('addBtn');
+const taskList = document.getElementById('taskList')
+const editInput = document.getElementById('editInput');
+const changeBtn = document.getElementById('changeBtn');
+let tasks = [];
+let num = 0;
+addBtn.addEventListener("click", () => {
+    const task = taskInput.value.trim();
+    if(task!==""){
+        tasks.push({
+        text: task,
+        createdAt: new Date()
+        });
+
+        taskInput.value = "";
+        renderTasks();
+    }
+})
+
+changeBtn.addEventListener("click", () => {
+    const task = editInput.value.trim();
+    if(task!==""){
+        tasks[num].text=task;
+        tasks[num].createdAt = new Date();
+        taskInput.value = "";
+        renderTasks();
+    }
+
+    document.querySelector(".edit").style.display = "none";
+    document.querySelector(".adddiv").style.display = "block";
+})
+
+function renderTasks() {
+    taskList.innerHTML = "";
+    tasks.forEach((task, index) => {
+        const li = document.createElement("li");
+        const taskText = document.createElement("span");
+taskText.textContent = task.text;
+li.appendChild(taskText);
+
+
+        const deleteBtn =  document.createElement("button");
+        deleteBtn.textContent = "🗑️";
+
+        const tickBtn = document.createElement("button");
+        tickBtn.textContent = "✔️";
+        
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "📝";
+
+        const timeBtn = document.createElement("button");
+        timeBtn.textContent = "🕛️";
+
+deleteBtn.onclick = () => {
+    li.classList.add("fade-out");
+    setTimeout(() => {
+        tasks.splice(index, 1);
+        renderTasks();
+    }, 500);
+};
+
+
+
+        editBtn.onclick = () =>{
+            document.querySelector(".edit").style.display = "block";
+            document.querySelector(".adddiv").style.display = "none";
+            editInput.value = tasks[index].text;
+            num = index;
+        }
+        tickBtn.onclick = () => {
+            li.style.textDecoration = "line-through";
+        }
+
+timeBtn.addEventListener("mouseover", () => {
+    timeBtn.textContent = "⏱️ " + formatTimeAgo(new Date() - task.createdAt);
+});
+
+timeBtn.addEventListener("mouseout", () => {
+    timeBtn.textContent = "⏱️";
+});
+
+        li.appendChild(deleteBtn);
+        li.appendChild(editBtn);
+        li.appendChild(tickBtn);
+        li.appendChild(timeBtn);
+        taskList.appendChild(li);
+        
+    })
+}
+
+function formatTimeAgo(ms) {
+    const seconds = Math.floor(ms / 1000);
+    if (seconds < 60) return `${seconds}sec ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}min ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}hr ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}days ago`;
+}
+
+    </script>
+</body>
+</html>
